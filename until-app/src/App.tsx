@@ -1,13 +1,23 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import './App.css'
 import { DotView } from './components/DotsView';
 import { NotesView } from './components/NotesView'
 import { getDaysLeft } from './utils/dateUtils';
 import { NatureView } from './components/NatureView';
+import { setItem, getItem } from './utils/localStorage';
 
 function App() {
-  const [startingDate, setStartingDate] = useState(new Date("2025-05-05"));
-  const [endingDate, setEndingDate] = useState(new Date("2025-09-30"));
+  const [startingDate, setStartingDate] = useState(() => {
+    const saved = getItem('startingDate');
+    const date = new Date(saved ? saved : '');
+    return isNaN(date.getTime()) ? new Date("2025-05-05") : date;
+  });
+  
+  const [endingDate, setEndingDate] = useState(() => {
+    const saved = getItem('endingDate');
+    const date = new Date(saved ? saved : '');
+    return isNaN(date.getTime()) ? new Date("2025-12-12") : date;
+  });
 
   const [currentView, setCurrentView] = useState('pins');
   const handleViewChange = (view: string) => {
@@ -18,6 +28,11 @@ function App() {
   const toggleDatesMenu = () => {
     setDatesMenuOpen(!datesMenuOpen);
   };
+
+  useEffect(() => {
+    setItem('startingDate', startingDate);
+    setItem('endingDate', endingDate);
+  }, [startingDate, endingDate]);
 
   return (
     <>
@@ -41,9 +56,13 @@ function App() {
       <div className={`changeDates ${datesMenuOpen ? "open" : ""}`}>
         <div className='dateInputs'>
           <p>from- </p>
-          <input type="date" value={startingDate.toISOString().split('T')[0]} onChange={(e) => setStartingDate(new Date(e.target.value))} />
+          <input type="date" 
+            value={startingDate.toISOString().split('T')[0]} 
+            onChange={(e) => setStartingDate(new Date(e.target.value))} />
           <p>until- </p>
-          <input type="date" value={endingDate.toISOString().split('T')[0]} onChange={(e) => setEndingDate(new Date(e.target.value))} />
+          <input type="date" 
+            value={endingDate.toISOString().split('T')[0]} 
+            onChange={(e) => setEndingDate(new Date(e.target.value))} />
         </div>
         <a onClick={toggleDatesMenu}>close</a>
       </div>

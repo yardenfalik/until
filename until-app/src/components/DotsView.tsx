@@ -1,5 +1,6 @@
 import "./DotsView.css"
 import {getNumberOfDaysInBetween, getTodaysDate} from "../utils/dateUtils";
+import { useState } from "react";
 
 type NotesViewProp = {
     startingDate: Date,
@@ -17,14 +18,24 @@ export function DotView({ startingDate, endingDate, isActive }: NotesViewProp) {
         return date;
     });
 
+    const [clickedDate, setClickedDate] = useState<string>();
+    function handleClick(date: Date) {
+        const dateStr = date.toDateString();
+        if (date > today) {
+            setClickedDate(dateStr);
+        } else {
+            setClickedDate(today.toDateString());
+        }
+    }
+
     return (
         <>
             <div className={`dotsContainer ${isActive ? "active" : ""}`}>
             <div className="daysDots">
                 {[...daysArray].map((date, index) => {
-                    const isPast = date < today;
+                    const isPast = date < today || date < new Date(clickedDate || "") || date.toDateString() === clickedDate;
                     return (
-                        <div key={index} className="dotWrapper">
+                        <div key={index} className="dotWrapper" onClick={() => handleClick(date)}>
                             <div className={"dotTooltip"}>
                                 {date.toDateString()}
                             </div>

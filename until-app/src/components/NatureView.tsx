@@ -1,5 +1,6 @@
 import "./NatureView.css"
 import {getNumberOfDaysInBetween, getTodaysDate} from "../utils/dateUtils";
+import { useState } from "react";
 
 type NatureViewProp = {
     startingDate: Date,
@@ -23,18 +24,30 @@ export function NatureView({ startingDate, endingDate, isActive }: NatureViewPro
         return date;
     });
 
+    const [daysEmojiArray] = useState<string[]>(
+        () => Array.from({ length: numberOfDays + 1 }, () => getRandomEmoji())
+    );
+
+    const [clickedDates, setClickedDates] = useState<string[]>([]);
+    function handleClick(date: Date) {
+        const dateStr = date.toDateString();
+        if (!clickedDates.includes(dateStr)) {
+            setClickedDates([...clickedDates, dateStr]);
+        }
+    }
+
     return (
         <>
             <div className={`natureContainer ${isActive ? "active" : ""}`}>
             <div className="daysNature">
                 {[...daysArray].map((date, index) => {
-                    const isPast = date < today;
+                    const isPast = date < today || clickedDates.includes(date.toDateString());
                     return (
-                        <div key={index} className="natureWrapper">
+                        <div key={index} className="natureWrapper" onClick={() => handleClick(date)}>
                             <div className={"natureTooltip"}>
                                 {date.toDateString()}
                             </div>
-                            <div className={`dot ${isPast ? "past" : ""}`}>{isPast ? getRandomEmoji() : ""}</div>
+                            <div className={`dot ${isPast ? "past" : ""}`}>{isPast ? daysEmojiArray[index] : ""}</div>
                         </div>
                     );
                 })}
