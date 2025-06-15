@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import './App.css'
 import { NotesView } from './components/NotesView'
 import { setItem, getItem } from './utils/localStorage';
-import { DotsAndNatureView } from './components/dotsAndNatureView';
+import { DotsAndNatureView } from './components/DotsAndNatureView';
 
 type ViewMode = "nature" | "dots" | "pins";
 
