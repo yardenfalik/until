@@ -27,3 +27,16 @@ export function getDaysLeft(endingDate: Date): number {
     }
     return getNumberOfDaysInBetween(today, endingDate);
 }
+
+export function getDaysLeftWithStart(startingDate: Date, endingDate: Date): number {
+    if (startingDate > endingDate) {
+        return 0;
+    }
+    return getNumberOfDaysInBetween(startingDate, endingDate);
+}
+
+export function addDaysToDate(date: Date, days: number): Date {
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + days);
+    return newDate;
+}

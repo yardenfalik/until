@@ -1,6 +1,7 @@
 import "./DotsView.css"
 import {getNumberOfDaysInBetween, getTodaysDate} from "../utils/dateUtils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Details } from "./Details";
 
 type NotesViewProp = {
     startingDate: Date,
@@ -10,6 +11,8 @@ type NotesViewProp = {
 
 export function DotView({ startingDate, endingDate, isActive }: NotesViewProp) {
     const today = getTodaysDate();
+
+    const [currentStartingDate, setCurrentStartingDate] = useState(startingDate);
 
     const numberOfDays = getNumberOfDaysInBetween(startingDate, endingDate);
     const daysArray = Array.from({ length: numberOfDays + 1 }, (_, i) => {
@@ -23,13 +26,23 @@ export function DotView({ startingDate, endingDate, isActive }: NotesViewProp) {
         const dateStr = date.toDateString();
         if (date > today) {
             setClickedDate(dateStr);
+            setCurrentStartingDate(date);
         } else {
             setClickedDate(today.toDateString());
+            setCurrentStartingDate(date);
         }
     }
 
+    useEffect(() => {
+        if (!isActive) {
+            setCurrentStartingDate(today);
+            setClickedDate(today.toDateString());
+        }
+    }, [isActive]);
+
     return (
         <>
+            <Details startingDate={currentStartingDate} endingDate={endingDate} currentView="dots"></Details>
             <div className={`dotsContainer ${isActive ? "active" : ""}`}>
             <div className="daysDots">
                 {[...daysArray].map((date, index) => {

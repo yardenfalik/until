@@ -16,6 +16,11 @@
     transition: opacity 0.3s ease-in-out;
 }
 
+.tooltip.nature {
+    background-color: #1e3428;
+    color: #ffffff;
+}
+
 .active {
     z-index: 1;
     opacity: 1;
@@ -46,27 +51,6 @@
     align-items: center;
     height: 25px;
     width: 20px;
-}
-
-.natureTooltip {
-    position: absolute;
-    top: 75%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #ffffff;
-    color: #000000;
-    padding: 4px 8px;
-    border-radius: 4px;
-    white-space: nowrap;
-    font-size: 12px;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease-in-out;
-    z-index: 10;
-}
-
-.natureWrapper:hover .natureTooltip {
-    opacity: 1;
 }
 
 .details.nature .number {

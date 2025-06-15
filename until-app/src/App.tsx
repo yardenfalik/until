@@ -1,10 +1,10 @@
 import {useEffect, useState} from 'react';
 import './App.css'
-import { DotView } from './components/DotsView';
 import { NotesView } from './components/NotesView'
-import { getDaysLeft } from './utils/dateUtils';
-import { NatureView } from './components/NatureView';
 import { setItem, getItem } from './utils/localStorage';
+import { DotsAndNatureView } from './components/dotsAndNatureView';
+
+type ViewMode = "nature" | "dots" | "pins";
 
 function App() {
   const [startingDate, setStartingDate] = useState(() => {
@@ -19,8 +19,8 @@ function App() {
     return isNaN(date.getTime()) ? new Date("2025-12-12") : date;
   });
 
-  const [currentView, setCurrentView] = useState('pins');
-  const handleViewChange = (view: string) => {
+  const [currentView, setCurrentView] = useState<ViewMode>("dots");
+  const handleViewChange = (view: ViewMode) => {
     setCurrentView(view);
   };
 
@@ -36,14 +36,10 @@ function App() {
 
   return (
     <>
-      <div className={`details ${currentView}`}>
-        <p className="number">{getDaysLeft(endingDate)}</p>
-        <p className="daysLeftText">days left</p>
-      </div>
+
+      <DotsAndNatureView startingDate={startingDate} endingDate={endingDate} isActive={currentView == "dots" || currentView == "nature"} mode={currentView}></DotsAndNatureView>
 
       <NotesView startingDate={startingDate} endingDate={endingDate} isActive={currentView == "pins" ? true : false}></NotesView>
-      <DotView startingDate={startingDate} endingDate={endingDate} isActive={currentView == "dots" ? true : false}></DotView>
-      <NatureView startingDate={startingDate} endingDate={endingDate} isActive={currentView == "nature" ? true : false}></NatureView>
 
       <div className='viewSwitcherContainer'>
         <div className='viewSwitcher'>
@@ -52,6 +48,7 @@ function App() {
           <button className={currentView == "nature" ? "pressed" : ""} onClick={() => handleViewChange("nature")}>🌱</button>
         </div>
       </div>
+
       <a className='editButton' onClick={toggleDatesMenu}>Edit</a>
       <div className={`changeDates ${datesMenuOpen ? "open" : ""}`}>
         <div className='dateInputs'>

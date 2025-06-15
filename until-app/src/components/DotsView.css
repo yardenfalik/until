@@ -37,28 +37,26 @@
     transition: transform 0.2s, background-color 0.3s, box-shadow 0.3s;
 }
 
-.dot.past {
+.daysDots .past {
     background-color: #464346;
     box-shadow: none;
     width: 5px;
     height: 5px;
 }
 
-.dotTooltip {
+.tooltip {
     position: absolute;
-    top: 75%;
-    left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -100%);
+    z-index: 10;
     background-color: #ffffff;
     color: #000000;
     padding: 4px 8px;
     border-radius: 4px;
     white-space: nowrap;
     font-size: 12px;
-    opacity: 0;
+    opacity: 1;
     pointer-events: none;
-    transition: opacity 0.2s ease-in-out;
-    z-index: 10;
+    transition: all 0.2s ease;
 }
 
 .dotWrapper {

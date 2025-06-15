@@ -1,16 +1,16 @@
-import { getDaysLeft } from "../utils/dateUtils";
+import { getDaysLeft, getDaysLeftWithStart } from "../utils/dateUtils";
 
 type DetailsProp = {
     startingDate: Date,
-    endingDate: Date
+    endingDate: Date,
+    currentView?: string;
 }
 
-export function Details({ startingDate, endingDate }: DetailsProp) {
+export function Details({ startingDate, endingDate, currentView }: DetailsProp) {
     return (
-        <div className="details">
-            <p><b>Starting Date: </b>{startingDate.toDateString()}</p>
-            <p><b>End Date: </b>{endingDate.toDateString()}</p>
-            <p>Days Left: {getDaysLeft(endingDate)}</p>
+        <div className={`details ${currentView}`}>
+            <p className="number">{getDaysLeftWithStart(startingDate, endingDate)}</p>
+            <p className="daysLeftText">days left</p>
         </div>
     );
 }
