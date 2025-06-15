@@ -1,4 +1,4 @@
-import { getDaysLeft, getDaysLeftWithStart } from "../utils/dateUtils";
+import { getDaysLeftWithStart } from "../utils/dateUtils";
 
 type DetailsProp = {
     startingDate: Date,
