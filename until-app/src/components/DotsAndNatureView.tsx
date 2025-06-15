@@ -58,7 +58,9 @@ export function DotsAndNatureView({ startingDate, endingDate, isActive, mode }: 
 
     setTooltipX(clientX);
     setTooltipY(clientY - 10);
-    setTooltipText(dateStr);
+
+    const daysNames = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+    setTooltipText(daysNames[date.getDay()] + ", " + date.getDate() + "." + (date.getMonth() + 1));
  
     if (mode === "nature") {
       if (!clickedDates.includes(dateStr)) {
